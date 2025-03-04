@@ -6,20 +6,12 @@ from .serializers import (
     PollSerializer,
     VoteSerializer,
     UserSerializer,
+    PollResultsSerializer,
 )
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
-from django.shortcuts import render
-from asgiref.sync import (
-    async_to_sync,
-)
-from channels.layers import get_channel_layer
 from django.db.models import Count
-
-
-def count_sse_view(request, poll_id):
-    return render(request, "index.html", {"poll_id": poll_id})
 
 
 @swagger_auto_schema(
@@ -228,28 +220,37 @@ class VoteCreateView(generics.CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
             serializer.save(user=user, poll=poll, option=option)
-            self.send_realtime_updates(poll_id)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-    def send_realtime_updates(self, poll_id):
-        """
-        Sends real-time updates to clients subscribed to the poll results.
-        """
-        channel_layer = get_channel_layer()
-        results_data = self.get_poll_results(poll_id)
 
-        async_to_sync(channel_layer.group_send)(
-            f"poll_{poll_id}_results",
-            {
-                "type": "send_results_update",
-                "message": results_data,
-            },
-        )
+class PollResultsView(generics.RetrieveAPIView):
+    """
+    API endpoint to view poll results in API format.
+    """
+
+    serializer_class = PollResultsSerializer
+    queryset = Poll.objects.all()
+    lookup_field = "pk"
+
+    @swagger_auto_schema(
+        operation_summary="Retrieve poll results",
+        operation_description="Retrieves the vote counts for each option in a specific poll.",
+        responses={
+            200: PollResultsSerializer(
+                help_text="Poll results with vote counts."
+            ),
+            404: "Not Found - Poll not found.",
+        },
+    )
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        results_data = self.get_poll_results(instance.id)
+        return Response(results_data)
 
     def get_poll_results(self, poll_id):
         """
-        Efficiently aggregates vote counts for each option in a poll.
+        Re-using the efficient vote count aggregation logic.
         """
         options_with_counts = (
             Option.objects.filter(poll_id=poll_id)

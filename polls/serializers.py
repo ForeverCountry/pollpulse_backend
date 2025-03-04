@@ -67,3 +67,14 @@ class VoteSerializer(serializers.ModelSerializer):
         model = Vote
         fields = ["id", "poll", "option", "user", "created_at"]
         read_only_fields = ["created_at", "user"]
+
+
+class PollResultsSerializer(serializers.Serializer):
+    poll_id = serializers.IntegerField()
+    results = serializers.ListField()
+
+    def to_representation(self, instance):
+        """
+        Customize representation to match the structure from get_poll_results.
+        """
+        return instance
