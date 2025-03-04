@@ -20,6 +20,10 @@ class Poll(models.Model):
     description = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     expires_at = models.DateTimeField(null=True, blank=True)
+    poll_type = models.CharField(max_length=50, default="single_choice")
+    settings = models.JSONField(default=dict, blank=True)
+    is_deleted = models.BooleanField(default=False)
+    deleted_at = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return self.title
@@ -31,6 +35,7 @@ class Option(models.Model):
         Poll, related_name="options", on_delete=models.CASCADE
     )
     option_text = models.CharField(max_length=255)
+    option_order = models.IntegerField(default=0)
 
     def __str__(self):
         return f"{self.poll.title} - {self.option_text}"
@@ -50,7 +55,7 @@ class Vote(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ("user", "poll")  # Prevent duplicate votes per poll
+        unique_together = ("user", "poll")
 
     def __str__(self):
         return f"{self.user.username} voted on '{self.poll.title}' for '{self.option.option_text}'"

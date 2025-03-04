@@ -21,11 +21,13 @@ class UserSerializer(serializers.ModelSerializer):
 class OptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Option
-        fields = ["id", "option_text"]
+        fields = ["id", "option_text", "option_order"]
 
 
 class PollSerializer(serializers.ModelSerializer):
     options = OptionSerializer(many=True)
+    poll_type = serializers.CharField()
+    settings = serializers.JSONField()
 
     class Meta:
         model = Poll
@@ -36,13 +38,22 @@ class PollSerializer(serializers.ModelSerializer):
             "created_at",
             "expires_at",
             "options",
+            "poll_type",
+            "settings",
         ]
+        read_only_fields = ["created_at"]
 
     def create(self, validated_data):
         options_data = validated_data.pop("options")
-        poll = Poll.objects.create(**validated_data)
-        for option_data in options_data:
-            Option.objects.create(poll=poll, **option_data)
+        poll = Poll.objects.create(
+            **validated_data, user=self.context["request"].user
+        )
+        for order, option_data in enumerate(options_data):
+            Option.objects.create(
+                poll=poll,
+                option_text=option_data["option_text"],
+                option_order=order,
+            )
         return poll
 
 
@@ -50,4 +61,4 @@ class VoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Vote
         fields = ["id", "poll", "option", "user", "created_at"]
-        read_only_fields = ["created_at"]
+        read_only_fields = ["created_at", "user"]

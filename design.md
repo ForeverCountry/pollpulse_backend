@@ -1,7 +1,5 @@
 # Database Design for PollPulse Backend
 
-## Database Schema (SQL Format)
-
 ### Users Table
 ```sql
 CREATE TABLE users (
@@ -21,7 +19,11 @@ CREATE TABLE polls (
     title VARCHAR(255) NOT NULL,
     description TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    expires_at TIMESTAMP
+    expires_at TIMESTAMP,
+    poll_type VARCHAR(50) DEFAULT 'single_choice',
+    settings JSONB,
+    is_deleted BOOLEAN DEFAULT FALSE,
+    deleted_at TIMESTAMP
 );
 ```
 
@@ -30,7 +32,8 @@ CREATE TABLE polls (
 CREATE TABLE options (
     id SERIAL PRIMARY KEY,
     poll_id INTEGER NOT NULL REFERENCES polls(id) ON DELETE CASCADE,
-    option_text VARCHAR(255) NOT NULL
+    option_text VARCHAR(255) NOT NULL,
+    option_order INTEGER DEFAULT 0 -- To control display order of options
 );
 ```
 
