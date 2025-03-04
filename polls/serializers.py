@@ -18,6 +18,11 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 
+class LoginSerializer(serializers.Serializer):
+    email = serializers.CharField()
+    password = serializers.CharField(write_only=True)
+
+
 class OptionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Option
