@@ -1,4 +1,10 @@
 # pollpulse_backend
+# PollPulse Backend
+
+[![Integration Tests](https://github.com/ForeverCountry/pollpulse_backend/actions/workflows/integration-tests.yml/badge.svg)](https://github.com/ForeverCountry/pollpulse_backend/actions/workflows/integration-tests.yml)
+
+PollPulse is a real-time polling API backend designed for online poll systems. Built with Django and PostgreSQL, it offers scalable endpoints for poll creation, voting, and real-time result computation. Detailed API documentation is provided via Swagger.
+
 
 PollPulse is a real-time polling API backend designed for online poll systems. Built with Django and PostgreSQL, it offers scalable endpoints for poll creation, voting, and real-time result computation. Detailed API documentation is provided via Swagger.
 
