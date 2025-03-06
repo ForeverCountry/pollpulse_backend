@@ -1,4 +1,4 @@
-name: Integration Tests
+name: Docker CI
 
 on:
   push:
@@ -32,9 +32,6 @@ jobs:
 
       - name: Wait for services to be ready
         run: sleep 20
-
-      - name: Run Integration Tests
-        run: python manage.py test polls.tests.integration_tests
 
       - name: Tear down containers
         if: always()
