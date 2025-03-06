@@ -83,6 +83,16 @@ Install Django, Django REST Framework, PostgreSQL adapter, and Swagger integrati
 Your API should now be accessible at [http://localhost:8000/api/](http://localhost:8000/api/).
 Your API docs should be accessible at [http://localhost:8000/api/docs/](http://localhost:8000/api/docs/)
 
+### 5. Set up `.env` file
+  ```
+    cp .env-example .env
+  ```
+
+## Deployment 
+1. Generate a SECRET_KEY and add it to `.env` file
+    ```
+      python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'
+    ```
 
 ## Git Commit Workflow
 
