@@ -250,7 +250,7 @@ class PollResultsView(generics.RetrieveAPIView):
 
     def get_poll_results(self, poll_id):
         """
-        Re-using the efficient vote count aggregation logic.
+        Vote count aggregation logic.
         """
         options_with_counts = (
             Option.objects.filter(poll_id=poll_id)
