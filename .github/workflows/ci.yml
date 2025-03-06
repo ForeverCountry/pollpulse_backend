@@ -13,6 +13,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: Copy environment variables
+        run: cp .env.example .env
         
       - name: Build and start containers
         run: docker compose up -d --build

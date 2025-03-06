@@ -85,7 +85,7 @@ Your API docs should be accessible at [http://localhost:8000/api/v1/docs/](http:
 
 ### 5. Set up `.env` file
   ```
-    cp .env-example .env
+    cp .env.example .env
   ```
 
 ## Testing
