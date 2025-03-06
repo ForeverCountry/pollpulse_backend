@@ -15,7 +15,7 @@ PollPulse aims to simulate a robust, real-world backend application for online p
 - **Poll Management:** Create, update, and list polls with metadata (e.g., creation and expiry dates).
 - **Voting System:** Cast votes securely with duplicate prevention.
 - **Real-Time Results:** Efficient queries and aggregation for instant vote tallying.
-- **Comprehensive API Documentation:** Swagger-powered docs accessible at `/api/docs`.
+- **Comprehensive API Documentation:** Swagger-powered docs accessible at `/api/v1/docs`.
 
 ## Technologies Used
 
@@ -80,8 +80,8 @@ Install Django, Django REST Framework, PostgreSQL adapter, and Swagger integrati
   python manage.py runserver
   ```
 
-Your API should now be accessible at [http://localhost:8000/api/](http://localhost:8000/api/).
-Your API docs should be accessible at [http://localhost:8000/api/docs/](http://localhost:8000/api/docs/)
+Your API should now be accessible at [http://localhost:8000/api/v1/](http://localhost:8000/api/v1/).
+Your API docs should be accessible at [http://localhost:8000/api/v1/docs/](http://localhost:8000/api/v1/docs/)
 
 ### 5. Set up `.env` file
   ```

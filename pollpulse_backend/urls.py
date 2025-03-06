@@ -36,9 +36,9 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api/", include("polls.urls")),  # include your polls app URLs
+    path("api/v1/", include("polls.urls")),
     path(
-        "api/docs/",
+        "api/v1/docs/",
         schema_view.with_ui("swagger", cache_timeout=0),
         name="schema-swagger-ui",
     ),
