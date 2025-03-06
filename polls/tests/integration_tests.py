@@ -1,3 +1,4 @@
+import dj_database_url
 from django.test import TestCase
 from testcontainers.postgres import PostgresContainer
 from django.conf import settings
@@ -25,11 +26,13 @@ class BaseIntegrationTest(TestCase):
     @classmethod
     def _setup_database(cls):
         db_url = cls.container.get_connection_url()
-        settings.DATABASES["default"] = {
-            "ENGINE": "django.db.backends.postgresql",
-            "URL": db_url,
-            "ATOMIC_REQUESTS": False,
-        }
+        if db_url.startswith("postgresql+psycopg2"):
+            db_url = db_url.replace("postgresql+psycopg2", "postgres")
+        db_config = dj_database_url.parse(db_url)
+        db_config["ATOMIC_REQUESTS"] = False
+
+        settings.DATABASES["default"] = db_config
+
         from django.core.management import call_command
 
         call_command("migrate")

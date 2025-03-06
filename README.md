@@ -127,5 +127,4 @@ Contributions are welcome! Please follow these guidelines:
 5. Create a Pull Request.
 
 ## License
-
-Distributed under the MIT License. See `LICENSE` for more information.
+Distributed under the MIT License. See the [LICENSE](/LICENSE) file for details.
