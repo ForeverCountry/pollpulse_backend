@@ -28,5 +28,4 @@ jobs:
         run: cp .env.example .env 
 
       - name: Run Integration Tests
-          python manage.py test polls.tests.integration_tests
-
+        run: python manage.py test polls.tests.integration_tests
