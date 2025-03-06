@@ -88,6 +88,12 @@ Your API docs should be accessible at [http://localhost:8000/api/v1/docs/](http:
     cp .env-example .env
   ```
 
+## Testing
+Run the project integration test using testcontainers using: 
+  ```
+    python manage.py test polls.tests.integration_tests
+  ```
+
 ## Deployment 
 1. Generate a SECRET_KEY and add it to `.env` file
     ```
